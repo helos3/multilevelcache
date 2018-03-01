@@ -1,21 +1,23 @@
 package cache.entry;
 
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
-public class WeakWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K, V> {
+public class SoftWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K, V> {
 
-	private final WeakReference<V> value;
+
+	private final SoftReference<V> value;
 	private final long initialValueWeight;
 
 
-	public static <K,V> WeakWeightedCacheEntry<K, V> of(K key, V value, long weight) {
-		return new WeakWeightedCacheEntry<>(key, value, weight);
+	public static <K,V> SoftWeightedCacheEntry<K, V> of(K key, V value, long weight) {
+		return new SoftWeightedCacheEntry<>(key, value, weight);
 	}
 
-	private WeakWeightedCacheEntry(K key, V value, long weight) {
+	private SoftWeightedCacheEntry(K key, V value, long weight) {
 		super(key);
 		initialValueWeight = weight;
-		this.value = new WeakReference<>(value);
+		this.value = new SoftReference<>(value);
 		updateAccessTime();
 	}
 

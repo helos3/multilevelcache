@@ -10,11 +10,12 @@ public abstract class AbstractWeightedCacheEntry<K, V> implements CacheEntry<K, 
 
 	public AbstractWeightedCacheEntry(K key) {
 		this.key = key;
-		writeTime = System.nanoTime();
+		writeTime = System.currentTimeMillis();
+		updateAccessTime();
 	}
 
 	protected void updateAccessTime() {
-		accessTime = System.nanoTime();
+		accessTime = System.currentTimeMillis();
 	}
 
 	@Override

@@ -33,4 +33,14 @@ public abstract class CacheEntryFactory<K, V> {
 		}
 	}
 
+	public static class SoftCacheEntryFactory<K,V> extends CacheEntryFactory<K,V> {
+		public SoftCacheEntryFactory(Weigher<V> weigher) {
+			super(weigher);
+		}
+		@Override
+		public CacheEntry<K, V> createEntry(K key, V value) {
+			return StrongWeightedCacheEntry.of(key, value, weigher.weight(value));
+		}
+	}
+
 }

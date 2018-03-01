@@ -16,11 +16,13 @@ public class StrongWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K
 
 	@Override
 	public V getValue() {
+		updateAccessTime();
 		return value;
 	}
 
 	@Override
 	public boolean isActive() {
+		updateAccessTime();
 		return true;
 	}
 

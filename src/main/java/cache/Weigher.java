@@ -9,7 +9,7 @@ public interface Weigher<V> {
 
 	long weight(V value);
 
-	static Weigher NON_WEIGHT_WEIGHER = obj -> 1L;
+	Weigher NON_WEIGHT_WEIGHER = obj -> -1L;
 
 	static <V> Weigher<V> nonNegativeWeigher(ToLongFunction<V> weigherFunc) {
 		return val -> weigherFunc.applyAsLong(val);

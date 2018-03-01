@@ -6,18 +6,18 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
-public interface Cache<K extends Serializable, V extends Serializable> {
+public interface Cache<K, V> {
 	V get(K key);
 
-	Map<K, V> getAllPresent(Iterable<?> keys);
+	Map<K, V> getAllPresent(Iterable<K> keys);
 
 	void put(K key, V value);
 
-	void putAll(Map<? extends K, ? extends V> m);
+	void putAll(Map<? extends K, ? extends V> map);
 
-	void invalidate(Object key);
+	void invalidate(K key);
 
-	void invalidateAll(Iterable<?> keys);
+	void invalidateAll(Iterable<K> keys);
 
 	void invalidateAll();
 
