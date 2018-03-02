@@ -85,9 +85,7 @@ class Chunk<K, V extends Serializable> {
 	public V get(K key) {
 		ObjectData metadata = objectsMetadata.get(key);
 		try (FileLock lock = writeChannel.lock()) {
-			ByteBuffer buffer = ByteBuffer.allocate(metadata.length);
-			readChannel.read(buffer, metadata.startPos);
-			return SerializationUtils.deserialize(buffer.array());
+			return nonSafeRead(metadata);
 		} catch (IOException e) {
 			throw new SerializationException(e);
 		}
@@ -98,8 +96,8 @@ class Chunk<K, V extends Serializable> {
 	public void put(K key, V value) {
 		ByteBuffer buf = ByteBuffer.wrap(SerializationUtils.serialize(value));
 		try (FileLock lock = writeChannel.lock()) {
-			objectsMetadata.put(key, new ObjectData(writeChannel.position(), buf.capacity()));
 			writeChannel.write(buf);
+			objectsMetadata.put(key, new ObjectData(writeChannel.position(), buf.capacity()));
 		} catch (IOException e) {
 			throw new SerializationException(e);
 		}

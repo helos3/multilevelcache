@@ -10,7 +10,9 @@ public class FileCacheTest {
 
 	@Test
 	public void initTest() {
-		FileCacheBuilder.<Integer, String>newBuilder().fileNames("temp").build();
+		FileCacheBuilder.<Integer, String>newBuilder()
+			.fileNames("temp")
+			.build();
 	}
 
 	@Test

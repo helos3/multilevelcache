@@ -21,12 +21,6 @@ class MultiLevelCache<K, V extends Serializable> implements Cache<K, V> {
 
 	MultiLevelCache(Weigher<K> weigher, long maxWeight, long delimeterWeight, long minWeight,
 		Cache<K, V> currentLevelCache, Cache<K, V> nextLevelCache) {
-		Validate.check(weigher, "Weighter must be not null", Objects::nonNull);
-		Validate.check(minWeight, delimeterWeight, "Weights must be correct", (min, max) -> min < max);
-		Validate.check(delimeterWeight, maxWeight, "Weights must be correct", (min, max) -> min < max);
-		Validate.check(minWeight, "Weights must be correct", min -> min > 0);
-		Validate.check(nextLevelCache, "Caches must be not null", Objects::nonNull);
-		Validate.check(currentLevelCache, "Caches must be not null", Objects::nonNull);
 
 		this.weigher = weigher;
 		this.maxWeight = maxWeight;
