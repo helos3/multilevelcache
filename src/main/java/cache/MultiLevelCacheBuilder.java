@@ -59,7 +59,7 @@ public class MultiLevelCacheBuilder<K, V extends Serializable> {
 		Validate.check(keyWeigher, "Weighter must be not null", Objects::nonNull);
 		Validate.check(minWeight, delimeterWeight, "Weights must be correct", (min, max) -> min < max);
 		Validate.check(delimeterWeight, maxWeight, "Weights must be correct", (min, max) -> min < max);
-		Validate.check(minWeight, "Weights must be correct", min -> min > 0);
+		Validate.check(minWeight, "Weights must be correct", min -> min >= 0);
 		Validate.check(nextLevelCache, "Caches must be not null", Objects::nonNull);
 		Validate.check(currentLevelCache, "Caches must be not null", Objects::nonNull);
 
