@@ -1,5 +1,7 @@
 package cache;
 
+import cache.file.FileCacheBuilder;
+import cache.memory.MemCacheBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 

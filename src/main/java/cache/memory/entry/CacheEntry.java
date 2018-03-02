@@ -1,6 +1,4 @@
-package cache.entry;
-
-import java.util.Map.Entry;
+package cache.memory.entry;
 
 public interface CacheEntry<K, V> {
 	K getKey();

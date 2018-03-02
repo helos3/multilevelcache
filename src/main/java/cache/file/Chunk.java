@@ -1,4 +1,4 @@
-package cache;
+package cache.file;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.SerializationException;
 import org.apache.commons.lang3.SerializationUtils;
 
-class FileChunk<K, V extends Serializable> {
+class Chunk<K, V extends Serializable> {
 
 	private FileChannel readChannel;
 	private FileChannel writeChannel;
@@ -25,7 +25,7 @@ class FileChunk<K, V extends Serializable> {
 	private final int capacity;
 	private final HashMap<K, ObjectData> objectsMetadata;
 
-	FileChunk(String fileName, int capacity){
+	Chunk(String fileName, int capacity){
 		try {
 			this.file = Files.createTempFile(fileName, ".tmp")
 				.toFile();

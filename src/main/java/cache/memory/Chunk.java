@@ -1,15 +1,13 @@
-package cache;
+package cache.memory;
 
-import cache.entry.CacheEntry;
+import cache.memory.entry.CacheEntry;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import util.Validate;
 
 class Chunk<K, V> {
 

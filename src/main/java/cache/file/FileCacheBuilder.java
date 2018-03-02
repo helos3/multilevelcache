@@ -1,10 +1,8 @@
-package cache;
+package cache.file;
 
-import java.io.File;
-import java.io.IOException;
+import cache.Cache;
+import cache.Weigher;
 import java.io.Serializable;
-import java.util.function.Supplier;
-import org.apache.commons.lang3.RandomStringUtils;
 
 public class FileCacheBuilder<K, V extends Serializable> {
 

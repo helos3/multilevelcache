@@ -1,7 +1,6 @@
 package cache;
 
-import static org.junit.Assert.*;
-
+import cache.file.FileCacheBuilder;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentMap;
 import org.junit.Assert;

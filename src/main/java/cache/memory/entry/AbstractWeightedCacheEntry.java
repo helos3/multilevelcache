@@ -1,4 +1,4 @@
-package cache.entry;
+package cache.memory.entry;
 
 abstract class AbstractWeightedCacheEntry<K, V> implements CacheEntry<K, V> {
 

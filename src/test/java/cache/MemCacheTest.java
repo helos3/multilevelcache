@@ -1,5 +1,7 @@
 package cache;
 
+import cache.memory.CacheEntryType;
+import cache.memory.MemCacheBuilder;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentMap;
 import org.junit.Assert;

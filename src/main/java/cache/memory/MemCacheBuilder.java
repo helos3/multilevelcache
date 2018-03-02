@@ -1,5 +1,8 @@
-package cache;
+package cache.memory;
 
+import cache.Cache;
+import cache.Weigher;
+import java.util.Objects;
 import util.Validate;
 
 public class MemCacheBuilder<K, V> {
@@ -33,6 +36,7 @@ public class MemCacheBuilder<K, V> {
 	}
 
 	public MemCacheBuilder<K, V> weigher(Weigher<V> weigher) {
+		Validate.check(weigher, "Weigher must be not null", Objects::nonNull);
 		this.weigher = weigher;
 		return this;
 	}
@@ -54,17 +58,20 @@ public class MemCacheBuilder<K, V> {
 	}
 
 	public MemCacheBuilder<K, V> entryType(CacheEntryType entryType) {
+		Validate.check(entryType, "Entry type must be not null", Objects::nonNull);
 		this.entryType = entryType;
 		return this;
 	}
 
 	public MemCacheBuilder<K, V> numberOfChunks(int numberOfChunks) {
+		Validate.check(numberOfChunks, "Number of chunks must be a positive int", num -> num >= 1);
 		this.numberOfChunks = numberOfChunks;
 		return this;
 	}
 
 	public Cache<K, V> build() {
-		return new MemCache<>(expireAfterAccess, expireAfterWrite, weigher, maxWeight,
-			minWeight, maximumSize, entryType, numberOfChunks);
+
+		return new MemCache<>(expireAfterAccess, expireAfterWrite, maxWeight,
+			minWeight, maximumSize, entryType.createFactory(weigher), numberOfChunks);
 	}
 }

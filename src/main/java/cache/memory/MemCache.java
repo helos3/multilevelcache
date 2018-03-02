@@ -1,7 +1,8 @@
-package cache;
+package cache.memory;
 
-import cache.entry.CacheEntry;
-import cache.entry.CacheEntryFactory;
+import cache.Cache;
+import cache.memory.entry.CacheEntry;
+import cache.memory.entry.CacheEntryFactory;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,12 +25,12 @@ class MemCache<K, V> implements Cache<K, V> {
 	private final int maximumSize;
 
 
-	MemCache(int expireAfterAccess, int expireAfterWrite, Weigher<V> weigher,
+	MemCache(int expireAfterAccess, int expireAfterWrite,
 		long maxWeight,
-		long minWeight, int maximumSize, CacheEntryType entryType, int numberOfChunks) {
+		long minWeight, int maximumSize, CacheEntryFactory cacheEntryFactory, int numberOfChunks) {
 		this.maxWeight = maxWeight;
 		this.minWeight = minWeight;
-		this.cacheEntryFactory = entryType.createFactory(weigher);
+		this.cacheEntryFactory = cacheEntryFactory;
 		this.numberOfChunks = numberOfChunks;
 		this.expireAfterAccess = expireAfterAccess;
 		this.expireAfterWrite = expireAfterWrite;

@@ -1,4 +1,4 @@
-package cache.entry;
+package cache.memory.entry;
 
 import java.lang.ref.WeakReference;
 

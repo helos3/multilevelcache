@@ -1,5 +1,7 @@
-package cache;
+package cache.file;
 
+import cache.Cache;
+import cache.Weigher;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,7 @@ import util.Validate;
 
 class FileCache<K, V extends Serializable> implements Cache<K, V> {
 
-	FileChunk<K, V>[] chunks;
+	Chunk<K, V>[] chunks;
 
 	private final int numberOfFiles;
 
@@ -31,9 +33,9 @@ class FileCache<K, V extends Serializable> implements Cache<K, V> {
 		this.maximumSize = maximumSize;
 		this.numberOfFiles = fileNames.length;
 
-		chunks = new FileChunk[numberOfFiles];
+		chunks = new Chunk[numberOfFiles];
 		for (int i = 0; i < fileNames.length; i++) {
-			chunks[i] = new FileChunk<>(fileNames[i], maximumSize / numberOfFiles);
+			chunks[i] = new Chunk<>(fileNames[i], maximumSize / numberOfFiles);
 		}
 	}
 
@@ -81,7 +83,7 @@ class FileCache<K, V extends Serializable> implements Cache<K, V> {
 
 	@Override
 	public void invalidateAll() {
-		for (FileChunk<K, V> chunk : chunks) {
+		for (Chunk<K, V> chunk : chunks) {
 			chunk.invalidateAll();
 		}
 
@@ -90,7 +92,7 @@ class FileCache<K, V extends Serializable> implements Cache<K, V> {
 	@Override
 	public long size() {
 		return Stream.of(chunks)
-			.map(FileChunk::size)
+			.map(Chunk::size)
 			.reduce(Integer::sum)
 			.orElse(0);
 	}
@@ -98,7 +100,7 @@ class FileCache<K, V extends Serializable> implements Cache<K, V> {
 	@Override
 	public ConcurrentMap<K, V> asMap() {
 		return new ConcurrentHashMap<>(Stream.of(chunks)
-			.map(FileChunk::asMap)
+			.map(Chunk::asMap)
 			.reduce((map1, map2) -> {
 				map1.putAll(map2);
 				return map1;
@@ -110,7 +112,7 @@ class FileCache<K, V extends Serializable> implements Cache<K, V> {
 		findChunk(key).put(key, value);
 	}
 
-	private FileChunk<K, V> findChunk(K key) {
+	private Chunk<K, V> findChunk(K key) {
 		int hash = key.hashCode();
 		return chunks[hash % numberOfFiles];
 	}

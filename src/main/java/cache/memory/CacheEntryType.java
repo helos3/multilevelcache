@@ -1,9 +1,10 @@
-package cache;
+package cache.memory;
 
-import cache.entry.CacheEntryFactory;
-import cache.entry.CacheEntryFactory.SoftCacheEntryFactory;
-import cache.entry.CacheEntryFactory.StrongCacheEntryFactory;
-import cache.entry.CacheEntryFactory.WeakCacheEntryFactory;
+import cache.Weigher;
+import cache.memory.entry.CacheEntryFactory;
+import cache.memory.entry.CacheEntryFactory.SoftCacheEntryFactory;
+import cache.memory.entry.CacheEntryFactory.StrongCacheEntryFactory;
+import cache.memory.entry.CacheEntryFactory.WeakCacheEntryFactory;
 
 public enum CacheEntryType {
 	STRONG {
