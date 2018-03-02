@@ -96,8 +96,9 @@ class Chunk<K, V extends Serializable> {
 	public void put(K key, V value) {
 		ByteBuffer buf = ByteBuffer.wrap(SerializationUtils.serialize(value));
 		try (FileLock lock = writeChannel.lock()) {
+			long startPos = writeChannel.position();
 			writeChannel.write(buf);
-			objectsMetadata.put(key, new ObjectData(writeChannel.position(), buf.capacity()));
+			objectsMetadata.put(key, new ObjectData(startPos, buf.capacity()));
 		} catch (IOException e) {
 			throw new SerializationException(e);
 		}
