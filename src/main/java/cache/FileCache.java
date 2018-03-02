@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import util.Validate;
 
-public class FileCache<K, V extends Serializable> implements Cache<K, V> {
+class FileCache<K, V extends Serializable> implements Cache<K, V> {
 
 	FileChunk<K, V>[] chunks;
 
@@ -23,7 +23,8 @@ public class FileCache<K, V extends Serializable> implements Cache<K, V> {
 
 	FileCache(Weigher<V> weigher, long maxWeight, long minWeight, int maximumSize,
 		String[] fileNames) {
-		Validate.check(fileNames, "File namse mustn't be null", array -> array != null && array.length != 0);
+		Validate.check(fileNames, "File name mustn't be null",
+			array -> array != null && array.length != 0);
 		this.weigher = weigher;
 		this.maxWeight = maxWeight;
 		this.minWeight = minWeight;
@@ -51,7 +52,10 @@ public class FileCache<K, V extends Serializable> implements Cache<K, V> {
 
 	@Override
 	public void put(K key, V value) {
-		findChunk(key).put(key, value);
+		if(!validWeight(value)) {
+			return;
+		}
+		_put(key, value);
 	}
 
 	@Override
@@ -59,6 +63,7 @@ public class FileCache<K, V extends Serializable> implements Cache<K, V> {
 		map.entrySet()
 			.stream()
 			.parallel()
+			.filter(entry -> validWeight(entry.getValue()))
 			.forEach(entry -> put(entry.getKey(), entry.getValue()));
 
 	}
@@ -101,8 +106,19 @@ public class FileCache<K, V extends Serializable> implements Cache<K, V> {
 			.orElse(new HashMap<>()));
 	}
 
+	private void _put(K key, V value) {
+		findChunk(key).put(key, value);
+	}
+
 	private FileChunk<K, V> findChunk(K key) {
 		int hash = key.hashCode();
 		return chunks[hash % numberOfFiles];
 	}
+
+	private boolean validWeight(V val) {
+		long weight = weigher.weight(val);
+		return (maxWeight == -1) || minWeight <= weight
+			&& weight >= maxWeight;
+	}
+
 }

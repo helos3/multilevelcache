@@ -130,6 +130,14 @@ class FileChunk<K, V extends Serializable> {
 			this.startPos = startPos;
 			this.length = length;
 		}
+
+		@Override
+		public String toString() {
+			return "ObjectData{" +
+				"startPos=" + startPos +
+				", length=" + length +
+				'}';
+		}
 	}
 
 }

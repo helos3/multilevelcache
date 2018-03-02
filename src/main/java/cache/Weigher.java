@@ -11,7 +11,4 @@ public interface Weigher<V> {
 
 	Weigher NON_WEIGHT_WEIGHER = obj -> -1L;
 
-	static <V> Weigher<V> nonNegativeWeigher(ToLongFunction<V> weigherFunc) {
-		return val -> weigherFunc.applyAsLong(val);
-	}
 }

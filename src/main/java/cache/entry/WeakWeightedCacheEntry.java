@@ -4,7 +4,9 @@ import java.lang.ref.WeakReference;
 
 public class WeakWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K, V> {
 
-	private final WeakReference<V> value;
+	private final WeakReference<K> weakKey;
+	private final V value;
+
 	private final long initialValueWeight;
 
 
@@ -13,22 +15,29 @@ public class WeakWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K, 
 	}
 
 	private WeakWeightedCacheEntry(K key, V value, long weight) {
-		super(key);
+		super(null);
 		initialValueWeight = weight;
-		this.value = new WeakReference<>(value);
+		this.value = value;
+		this.weakKey = new WeakReference<>(key);
 		updateAccessTime();
 	}
 
 	@Override
 	public V getValue() {
 		updateAccessTime();
-		return value.get();
+		return value;
 	}
 
 	@Override
 	public boolean isActive() {
 		updateAccessTime();
-		return value.get() != null;
+		return weakKey != null;
+	}
+
+	@Override
+	public K getKey() {
+		updateAccessTime();
+		return weakKey.get();
 	}
 
 	@Override

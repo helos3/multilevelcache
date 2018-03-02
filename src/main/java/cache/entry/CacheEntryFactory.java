@@ -39,7 +39,7 @@ public abstract class CacheEntryFactory<K, V> {
 		}
 		@Override
 		public CacheEntry<K, V> createEntry(K key, V value) {
-			return StrongWeightedCacheEntry.of(key, value, weigher.weight(value));
+			return SoftWeightedCacheEntry.of(key, value, weigher.weight(value));
 		}
 	}
 

@@ -9,7 +9,7 @@ import java.util.stream.StreamSupport;
 import org.apache.commons.lang3.tuple.Pair;
 import util.Validate;
 
-public class MultiLevelCache<K, V extends Serializable> implements Cache<K, V> {
+class MultiLevelCache<K, V extends Serializable> implements Cache<K, V> {
 
 	private Weigher<K> weigher;
 	private long maxWeight;

@@ -20,7 +20,7 @@ class Chunk<K, V> {
 	private final int writeTimeInvalidity;
 	private final AtomicInteger counter = new AtomicInteger(0);
 
-	private Chunk(int capacity, int accessTimeInvalidity, int writeTimeInvalidity) {
+	Chunk(int capacity, int accessTimeInvalidity, int writeTimeInvalidity) {
 		this.capacity = capacity;
 		this.accessTimeInvalidity = accessTimeInvalidity;
 		this.writeTimeInvalidity = writeTimeInvalidity;
@@ -82,48 +82,10 @@ class Chunk<K, V> {
 			return false;
 		}
 		long currentTime = System.currentTimeMillis();
-		boolean timeInvalidation = (writeTimeInvalidity == -1
+		boolean timeValidity = (writeTimeInvalidity == -1
 			|| currentTime - entry.getWriteTime() <= writeTimeInvalidity)
 			&& (accessTimeInvalidity == -1
 			|| currentTime - entry.getAccessTime() <= accessTimeInvalidity);
-		return entry.isActive() && timeInvalidation;
+		return entry.isActive() && timeValidity;
 	}
-
-	public static <K, V> Builder<K, V> builder() {
-		return new Builder<>();
-	}
-
-	public static class Builder<K, V> {
-
-		private int capacity = 10;
-		private int accessTimeInvalidity = -1;
-		private int writeTimeInvalidity = -1;
-
-		private Builder() {
-		}
-
-		public Builder<K, V> capacity(int capacity) {
-			this.capacity = capacity;
-			return this;
-		}
-
-		public Builder<K, V> accessTimeInvalidity(int accessTimeInvalidity) {
-			this.accessTimeInvalidity = accessTimeInvalidity;
-			return this;
-		}
-
-
-		public Builder<K, V> writeTimeInvalidity(int writeTimeInvalidity) {
-			this.writeTimeInvalidity = writeTimeInvalidity;
-			return this;
-		}
-
-
-		public Chunk<K, V> build() {
-			return new Chunk<>(capacity, accessTimeInvalidity, writeTimeInvalidity);
-		}
-
-
-	}
-
 }

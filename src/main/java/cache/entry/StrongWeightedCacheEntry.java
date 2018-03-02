@@ -1,6 +1,6 @@
 package cache.entry;
 
-public class StrongWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K, V> {
+class StrongWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K, V> {
 	private final V value;
 	private final long valueWeight;
 

@@ -1,6 +1,6 @@
 package cache.entry;
 
-public abstract class AbstractWeightedCacheEntry<K, V> implements CacheEntry<K, V> {
+abstract class AbstractWeightedCacheEntry<K, V> implements CacheEntry<K, V> {
 
 	protected final K key;
 

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class MemCache<K, V> implements Cache<K, V> {
+class MemCache<K, V> implements Cache<K, V> {
 
 	private Chunk<K, V>[] chunks;
 	private final CacheEntryFactory<K, V> cacheEntryFactory;
@@ -38,14 +38,10 @@ public class MemCache<K, V> implements Cache<K, V> {
 	}
 
 	private void init() {
-		Chunk.Builder<K, V> builder = Chunk.<K, V>builder()
-			.accessTimeInvalidity(expireAfterAccess)
-			.writeTimeInvalidity(expireAfterWrite)
-			.capacity(maximumSize / numberOfChunks);
-
 		chunks = new Chunk[numberOfChunks];
 		for (int i = 0; i < numberOfChunks; i++) {
-			chunks[i] = builder.build();
+			chunks[i] = new Chunk<>(maximumSize / numberOfChunks, expireAfterAccess,
+				expireAfterWrite);
 		}
 	}
 
@@ -94,7 +90,10 @@ public class MemCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public long size() {
-		return Stream.of(chunks).map(Chunk::size).reduce(Integer::sum).orElse(0);
+		return Stream.of(chunks)
+			.map(Chunk::size)
+			.reduce(Integer::sum)
+			.orElse(0);
 	}
 
 	@Override

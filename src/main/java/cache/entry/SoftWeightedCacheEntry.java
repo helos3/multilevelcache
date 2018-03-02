@@ -3,7 +3,7 @@ package cache.entry;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
-public class SoftWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K, V> {
+class SoftWeightedCacheEntry<K, V> extends AbstractWeightedCacheEntry<K, V> {
 
 
 	private final SoftReference<V> value;
