@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import util.Validate;
 
 public class FileCache<K, V extends Serializable> implements Cache<K, V> {
 
@@ -22,6 +23,7 @@ public class FileCache<K, V extends Serializable> implements Cache<K, V> {
 
 	FileCache(Weigher<V> weigher, long maxWeight, long minWeight, int maximumSize,
 		String[] fileNames) {
+		Validate.check(fileNames, "File namse mustn't be null", array -> array != null && array.length != 0);
 		this.weigher = weigher;
 		this.maxWeight = maxWeight;
 		this.minWeight = minWeight;

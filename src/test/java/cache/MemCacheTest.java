@@ -1,5 +1,6 @@
 package cache;
 
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentMap;
 import org.junit.Assert;
 import org.junit.Test;
@@ -110,6 +111,29 @@ public class MemCacheTest {
 
 	}
 
+	@Test
+	public void memCacheManualInvalidationTest() throws Exception {
+		Cache<Integer, String> cache = MemCacheBuilder.<Integer, String>newBuilder()
+			.build();
+
+		cache.put(1, "ON");
+		cache.put(2, "TWO");
+		cache.put(3, "THREE");
+		cache.put(4, "FOUR");
+
+		cache.invalidate(1);
+
+		Assert.assertEquals(3, cache.size());
+
+		cache.invalidateAll(new ArrayList<Integer>() {{add(2); add(3);}});
+
+		Assert.assertEquals(1, cache.size());
+
+		cache.invalidateAll();
+
+		Assert.assertEquals(0, cache.size());
+
+	}
 
 
 
